@@ -1,43 +1,43 @@
 import streamlit as st
 import random
 
-st.set_page_config(page_title="Abyascus", layout="centered")
-st.title("🧮 Abyascus: The 3D Math Odyssey")
+# Page Branding
+st.set_page_config(page_title="Abyascus", page_icon="🧮")
+st.image("1000493014.png", use_container_width=True)
 
-# Score tracking
+st.title("🧮 Abyascus: The Math Odyssey")
+st.write("Special Gift from **Prince Shaizu**")
+
+# Scoring logic
 if 'score' not in st.session_state:
     st.session_state.score = {'Hasan': 0, 'Laiba': 0}
 
 choice = st.radio("Kaun khel raha hai?", ["Lion Hasan 🦁", "Owl Laiba 🦉"])
-
 player = "Hasan" if "Hasan" in choice else "Laiba"
-st.subheader(f"{choice} ki bari!")
-
-# Level selection
-level = st.select_slider("Apna Level Chuno", options=["Level 1", "Level 2", "Level 3"])
 
 # Math Logic
-if level == "Level 1":
-    a, b = random.randint(1, 9), random.randint(1, 9)
-    ques, ans = f"{a} + {b}", a + b
-elif level == "Level 2":
-    a, b = random.randint(10, 50), random.randint(1, 9)
-    ques, ans = f"{a} + {b}", a + b
-else:
-    a, b = random.randint(10, 20), random.randint(2, 5)
-    ques, ans = f"{a} × {b}", a * b
+if 'num1' not in st.session_state:
+    st.session_state.num1 = random.randint(1, 20)
+    st.session_state.num2 = random.randint(1, 10)
 
-st.write(f"### Sawal: {ques} = ?")
-user_ans = st.number_input("Jawab yahan likho", step=1, key=f"input_{player}")
+correct_ans = st.session_state.num1 + st.session_state.num2
 
-if st.button("Check Jawab ✅"):
-    if user_ans == ans:
-        st.success("Sahi Jawab! +10 Points ⭐")
+st.subheader(f"Chalo {player}, batao:")
+st.write(f"### {st.session_state.num1} + {st.session_state.num2} = ?")
+
+user_input = st.number_input("Jawab likho:", step=1, key="math_in")
+
+if st.button("Check Karein ✅"):
+    if user_input == correct_ans:
+        st.balloons()
+        st.success("Sahi Jawab! +10 Points!")
         st.session_state.score[player] += 10
+        del st.session_state.num1
+        st.rerun()
     else:
-        st.error(f"Try again! Sahi jawab {ans} tha.")
+        st.error(f"Galt jawab! Sahi jawab {correct_ans} tha.")
 
-st.sidebar.header("🏆 Leaderboard")
+# Sidebar scoreboard
+st.sidebar.header("🏆 Scoreboard")
 st.sidebar.write(f"🦁 Hasan: {st.session_state.score['Hasan']}")
 st.sidebar.write(f"🦉 Laiba: {st.session_state.score['Laiba']}")
-  
