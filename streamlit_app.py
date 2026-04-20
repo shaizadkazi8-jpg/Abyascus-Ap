@@ -3,7 +3,9 @@ import random
 
 # Page Branding
 st.set_page_config(page_title="Abyascus", page_icon="🧮")
-st.image("1000493014.png", use_container_width=True)
+
+# Naya Image Name yahan update kar diya hai
+st.image("1776634796939.png", use_container_width=True)
 
 st.title("🧮 Abyascus: The Math Odyssey")
 st.write("Special Gift from **Prince Shaizu**")
